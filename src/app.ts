@@ -46,7 +46,6 @@ app.use(cookieParser());
 
 const client_id: string|any= process.env.CLIENT_ID;
 
-// const client_secret = process.env.CLIENT_SECRET;
 
 
 app.use('/users', indexRouter);

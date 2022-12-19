@@ -129,22 +129,3 @@ export async function RegisterUser(req:Request, res:Response, next:NextFunction)
     }
 }
 
-// requried:[true, "this is already used"]
-// Adesola Olalekan
-// 20:04
-// export interface Queryinterface {
-// {
-// result: any;
-// error?: any | string;
-// message? : string 
-// }
-// Adesola Olalekan
-// 20:05
-// const example = ():Promise<Query_interface>=> {}
-// Adesola Olalekan
-// 20:06
-// i can't hear you the network is bad
-// Adesola Olalekan
-// 20:07
-// cosnt loginUser = async ({email, password}:{email:string, password: string}) :Promise<Qqueryinterface> => { }
-// <Queryinterface<Userinterface>>
