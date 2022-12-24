@@ -8,6 +8,8 @@
     "dev": "nodemon ./bin/www "
   },
   "dependencies": {
+    "@types/passport-facebook": "^2.1.11",
+    "@types/passport-twitter": "^1.0.37",
     "axios": "^1.2.1",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
@@ -25,9 +27,12 @@
     "morgan": "~1.9.1",
     "nodemon": "^2.0.20",
     "passport": "^0.6.0",
+    "passport-facebook": "^3.0.0",
     "passport-google-oauth2": "^0.2.0",
     "passport-google-oauth20": "^2.0.0",
+    "passport-twitter": "^1.0.4",
     "prettier": "^2.8.1",
+    "query-string": "^8.1.0",
     "tsconfig": "^7.0.0",
     "typescript": "^4.9.4"
   },
@@ -44,6 +49,7 @@
     "@types/passport": "^1.0.11",
     "@types/passport-google-oauth2": "^0.1.5",
     "@types/passport-google-oauth20": "^2.0.11",
+    "@types/query-string": "^6.3.0",
     "@types/typescript": "^2.0.0",
     "@types/uuid": "^9.0.0"
   }

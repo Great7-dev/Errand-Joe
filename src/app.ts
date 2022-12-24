@@ -7,17 +7,19 @@ import cors from 'cors';
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 import querystring from "querystring";
+import * as queryString from 'query-string';
 import axios from "axios";
-
-// import {google} from 'googleapis'
-
-
+import passport from 'passport';
+import passportFacebook from 'passport-facebook';
+import session from 'express-session';
+import passportTwitter from "passport-twitter";
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import connectDB from './config/database.config';
-// import { COOKIE_NAME } from './config/config';
 
+const FacebookStrategy = passportFacebook.Strategy
+const TwitterStrategy = passportTwitter.Strategy
 
 
 
@@ -43,6 +45,17 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({secret: 'mysecret',}))
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, cb){
+  cb(null, user)
+})
+
+passport.deserializeUser(function(obj:string, cb){
+  cb(null, obj)
+})
 
 const client_id: string|any= process.env.CLIENT_ID;
 
@@ -50,6 +63,8 @@ const client_id: string|any= process.env.CLIENT_ID;
 
 app.use('/users', indexRouter);
 app.use('/user', usersRouter);
+
+//Google Login
 
 const redirectURI = "auth/google";
 
@@ -170,10 +185,46 @@ app.get("/auth/me", (req, res) => {
   }
 });
 
+
+
+
+//Facebook Login
+
+const CLIENT_ID_FB: string|any = process.env.CLIENT_ID_FB;
+const CLIENT_SECRET_FB: string|any = process.env.CLIENT_SECRET_FB;
+
+passport.use(new FacebookStrategy({
+  clientID: CLIENT_ID_FB,
+  clientSecret: CLIENT_SECRET_FB,
+  callbackURL: "http://localhost:3000/auth/facebook/callback"
+},
+function(accessToken:any, refreshToken:any, profile:any, done:any) {
+       console.log(profile);
+      return done(null, profile);
+}
+));
+app.get('/login-facebook',passport.authenticate('facebook'));
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/failed' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.json('success');
+  });
+app.get('/failed', (req, res) => {
+  res.send('failed');
+});
+//LOGOUT
+app.get('/logout', (req, res) => {
+  req.session.destroy(function(err){
+    res.clearCookie('connect.sid');
+    res.send('logout');
+  });
+});
+
+
 app.use(function (req, res, next) {
     next(createError(404));
   });
-
 export default app;
 
 
